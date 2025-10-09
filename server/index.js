@@ -31,7 +31,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-app.use('*', (req, res) => {
+app.all('*', (req, res) => {
   res.status(404).json({
     error: 'Route not found',
     message: `The route ${req.originalUrl} does not exist`,
