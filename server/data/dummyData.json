@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Punto A",
+    "lat": 41.1579,
+    "lng": -8.6291,
+    "description": "Puerto de Oporto",
+    "type": "puerto"
+  },
+  {
+    "id": 2,
+    "name": "Punto B",
+    "lat": 41.1618,
+    "lng": -8.5839,
+    "description": "Centro de Oporto",
+    "type": "centro"
+  },
+  {
+    "id": 3,
+    "name": "Punto C",
+    "lat": 41.1496,
+    "lng": -8.6109,
+    "description": "Vila Nova de Gaia",
+    "type": "puente"
+  },
+  {
+    "id": 4,
+    "name": "Punto D",
+    "lat": 41.1789,
+    "lng": -8.5959,
+    "description": "Matosinhos",
+    "type": "playa"
+  }
+]

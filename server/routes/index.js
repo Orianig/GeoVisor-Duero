@@ -1,4 +1,5 @@
 import express from 'express';
+import dummyData from './dummyData.js';
 
 const router = express.Router();
 
@@ -21,5 +22,7 @@ router.get('/status', (req, res) => {
     environment: process.env.NODE_ENV || 'development'
   });
 });
+
+router.use('/data', dummyData);
 
 export default router;

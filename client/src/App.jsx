@@ -7,7 +7,7 @@ import Layout from './components/Layout'
 function App() {
 
   return (
-    <BrowserRouter  basename="/GeoVisor-Duero">
+    <BrowserRouter basename="/GeoVisor-Duero/">
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
