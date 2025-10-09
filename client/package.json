@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://OrianiG.github.io/GeoVisor-Duero/",
+  "homepage": "https://orianig.github.io/GeoVisor-Duero/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
