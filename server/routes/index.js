@@ -1,5 +1,6 @@
 import express from 'express';
 import dummyData from './dummyData.js';
+import geojsonData from './geojsonData.js';
 
 const router = express.Router();
 
@@ -8,7 +9,9 @@ router.get('/', (req, res) => {
     message: 'GeoVisor Duero API Routes',
     version: '1.0.0',
     availableRoutes: [
-      '/api/posts',
+      '/api/dataDummy',
+      '/api/data/watersheds',
+      '/api/data/wells'
     ],
     timestamp: new Date().toISOString()
   });
@@ -23,6 +26,7 @@ router.get('/status', (req, res) => {
   });
 });
 
-router.use('/data', dummyData);
+router.use('/dataDummy', dummyData);
+router.use('/data', geojsonData);
 
 export default router;
