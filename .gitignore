@@ -35,4 +35,6 @@ coverage/
 
 # Logs
 logs/
-*.log
+*.log# Large GeoJSON files
+server/data/geojson/River.json
+server/data/geojson/Pond.json
