@@ -27,9 +27,12 @@ const MapView = ({
       },
       wells: { 
         color: '#EF4444', 
-        weight: 2, 
-        fillOpacity: 0.8,
-        radius: 4
+        weight: 3, 
+        fillOpacity: 0.9,
+        fillColor: '#EF4444',
+        radius: 6,
+        interactive: true,
+        bubblingMouseEvents: false
       }
     };
     return styles[layerType] || { color: '#6B7280', weight: 1 };
@@ -77,22 +80,22 @@ const MapView = ({
           maxZoom={19}
           minZoom={2}
         />
-
         {watershedData && (
           <GeoJSON
             key="watersheds"
             data={watershedData}
             style={() => getLayerStyle('watersheds')}
             onEachFeature={onEachFeature}
+            pane="overlayPane"
           />
         )}
-
         {wellData && (
           <GeoJSON
             key="wells"
             data={wellData}
             pointToLayer={pointToLayer}
             onEachFeature={onEachFeature}
+            pane="markerPane"
           />
         )}
       </MapContainer>

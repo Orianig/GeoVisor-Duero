@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import MapView from '../components/MapView';
+import Sidebar from '../components/Sidebar';
+import Details from '../components/Details';
 import config from '../config.js';
 
 const Map = () => {
-  const navigate = useNavigate();
   const [watershedData, setWatershedData] = useState(null);
   const [wellData, setWellData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedFeature, setSelectedFeature] = useState(null);
+  const [layerVisibility, setLayerVisibility] = useState({
+    watersheds: true,
+    wells: true
+  });
 
   useEffect(() => {
     fetchMapData();
@@ -47,6 +51,13 @@ const Map = () => {
     console.log('Feature clicked:', feature);
   };
 
+  const handleLayerToggle = (layerName) => {
+    setLayerVisibility(prev => ({
+      ...prev,
+      [layerName]: !prev[layerName]
+    }));
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -81,30 +92,38 @@ const Map = () => {
     );
   }
 
+  const detailsHeight = selectedFeature ? '35%' : '15%';
+  const mapHeight = selectedFeature ? '65%' : '85%';
+
   return (
-    <div className="h-screen flex flex-col">
-      <div className="bg-blue-600 text-white p-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">🗺️ GeoVisor Duero</h1>
-        <div className="flex items-center space-x-4">
-          <span className="text-sm">
-            📍 {wellData?.metadata?.returned || 0} pozos • 
-            🏞️ {watershedData?.features?.length || 0} cuencas
-          </span>
-          <button 
-            onClick={() => navigate('/')}
-            className="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
-          >
-            Home
-          </button>
-        </div>
-      </div>
-      
-      <div className="flex-1">
-        <MapView 
+    <div className="h-full flex overflow-hidden">
+      <div className="w-80 bg-white border-r border-gray-200 flex-shrink-0">
+        <Sidebar 
           watershedData={watershedData}
           wellData={wellData}
-          onFeatureClick={handleFeatureClick}
+          layerVisibility={layerVisibility}
+          onLayerToggle={handleLayerToggle}
         />
+      </div>
+      
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-shrink-0 transition-all duration-300" style={{ height: mapHeight }}>
+          <MapView 
+            watershedData={layerVisibility.watersheds ? watershedData : null}
+            wellData={layerVisibility.wells ? wellData : null}
+            onFeatureClick={handleFeatureClick}
+          />
+        </div>
+        
+        <div 
+          className="bg-white border-t border-gray-200 flex-shrink-0 transition-all duration-300" 
+          style={{ height: detailsHeight }}
+        >
+          <Details 
+            selectedFeature={selectedFeature}
+            onClearSelection={() => setSelectedFeature(null)}
+          />
+        </div>
       </div>
     </div>
   );
