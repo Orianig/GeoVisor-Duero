@@ -1,13 +1,16 @@
 import Navbar from './Navbar'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 
 const Layout = () => {
+    const location = useLocation();
+    const isMapPage = location.pathname === '/map';
+    
     return (
-        <div className="h-screen flex flex-col overflow-hidden">
+        <div className={isMapPage ? "h-screen flex flex-col overflow-hidden" : "min-h-screen flex flex-col"}>
             <div className="flex-shrink-0">
                 <Navbar />
             </div>
-            <div className="flex-1 overflow-hidden">
+            <div className={isMapPage ? "flex-1 overflow-hidden" : "flex-1"}>
                 <Outlet />
             </div>
         </div>

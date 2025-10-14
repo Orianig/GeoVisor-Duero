@@ -45,7 +45,6 @@ const Map = () => {
       setError(null);
     } catch (err) {
       setError(err.message);
-      console.error('Error fetching map data:', err);
     } finally {
       setLoading(false);
     }
@@ -53,7 +52,6 @@ const Map = () => {
 
   const handleFeatureClick = (feature) => {
     setSelectedFeature(feature);
-    console.log('Feature clicked:', feature);
   };
 
   const handleLayerToggle = (layerName) => {
