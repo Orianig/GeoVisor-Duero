@@ -5,12 +5,12 @@ const Details = ({ selectedFeature, onClearSelection }) => {
   if (!selectedFeature) {
     return (
       <div className="h-full flex items-center justify-center bg-gray-50">
-        <div className="text-center flex-col gap-y-2 p-6">
+        <div className="text-center flex-col p-6">
          <div className="flex justify-center items-center gap-x-2"> <FaInfoCircle className="w-6 h-6 text-gray-400" />
           <h3 className="text-lg font-medium text-gray-600">
             Selecciona un elemento en el mapa
           </h3></div>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 mt-1">
             Haz clic en cualquier cuenca o pozo para ver sus detalles completos
           </p>
         </div>
@@ -76,16 +76,18 @@ const Details = ({ selectedFeature, onClearSelection }) => {
                 <span className="text-sm text-gray-600">Tipo de geometría:</span>
                 <span className="text-sm font-medium">{geometry.type}</span>
               </div>
-              {properties.id && (
+              {(properties.id || properties.gid || properties.id_pozo) && (
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">ID:</span>
-                  <span className="text-sm font-medium">{properties.id}</span>
+                  <span className="text-sm font-medium">
+                    {properties.id || properties.gid || properties.id_pozo}
+                  </span>
                 </div>
               )}
             </div>
           </div>
 
-          {isWell && (
+          {isWell && (properties.elevacion || properties.profundidad || properties.caudal) && (
             <div>
               <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center">
                 <FaDroplet className="w-4 h-4 mr-2" />
@@ -117,7 +119,7 @@ const Details = ({ selectedFeature, onClearSelection }) => {
             </div>
           )}
 
-          {isWatershed && (
+          {isWatershed && (properties.area || properties.perimetro) && (
             <div>
               <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center">
                 <FaWater className="w-4 h-4 mr-2" />
