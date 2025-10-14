@@ -1,5 +1,5 @@
 import { FaEye, FaEyeSlash, FaMapMarkedAlt, FaWater } from 'react-icons/fa';
-import { FaDroplet } from 'react-icons/fa6';
+import { FaDroplet, FaMapPin } from 'react-icons/fa6';
 
 const Sidebar = ({ 
   watershedData, 
@@ -18,7 +18,7 @@ const Sidebar = ({
   const LayerToggle = ({ layerKey, icon: Icon, label, count, isVisible }) => (
     <div className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
       <div className="flex items-center space-x-3">
-        <Icon className={`w-4 h-4 ${isVisible ? 'text-blue-600' : 'text-gray-400'}`} />
+        <Icon className={`w-4 h-4 ${isVisible ? 'text-sky-900' : 'text-gray-400'}`} />
         <div>
           <span className={`font-medium ${isVisible ? 'text-gray-900' : 'text-gray-500'}`}>
             {label}
@@ -30,7 +30,7 @@ const Sidebar = ({
         onClick={() => onLayerToggle(layerKey)}
         className={`p-2 rounded-md transition-colors ${
           isVisible 
-            ? 'bg-blue-100 text-blue-600 hover:bg-blue-200' 
+            ? 'bg-sky-100 text-sky-900 hover:bg-sky-200' 
             : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
         }`}
       >
@@ -41,15 +41,6 @@ const Sidebar = ({
 
   return (
     <div className="h-full flex flex-col bg-white">
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-          <FaMapMarkedAlt className="w-5 h-5 mr-2 text-blue-600" />
-          Control de Capas
-        </h2>
-        <p className="text-sm text-gray-500 mt-1">
-          Gestiona la visualización de datos geográficos
-        </p>
-      </div>
 
       <div className="p-4 border-b border-gray-200">
         <h3 className="text-sm font-medium text-gray-700 mb-3">Estadísticas</h3>
