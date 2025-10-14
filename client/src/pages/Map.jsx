@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import L from 'leaflet';
 import MapView from '../components/MapView';
 import Sidebar from '../components/Sidebar';
 import Details from '../components/Details';
@@ -13,6 +14,10 @@ const Map = () => {
   const [layerVisibility, setLayerVisibility] = useState({
     watersheds: true,
     wells: true
+  });
+  const [visibleFeatures, setVisibleFeatures] = useState({
+    watersheds: 0,
+    wells: 0
   });
 
   useEffect(() => {
@@ -57,6 +62,52 @@ const Map = () => {
       [layerName]: !prev[layerName]
     }));
   };
+
+  const handleMapBoundsChange = useCallback((bounds) => {
+    if (!bounds) return;
+
+    let visibleWells = 0;
+    let visibleWatersheds = 0;
+
+    if (wellData?.features) {
+      visibleWells = wellData.features.filter(feature => {
+        const [lng, lat] = feature.geometry.coordinates;
+        return bounds.contains([lat, lng]);
+      }).length;
+    }
+
+    if (watershedData?.features) {
+      const mapCenter = bounds.getCenter();
+      visibleWatersheds = watershedData.features.filter(feature => {
+        if (feature.geometry.type === 'Polygon') {
+          const coords = feature.geometry.coordinates[0].map(([lng, lat]) => [lat, lng]);
+          return L.polygon(coords).getBounds().contains(mapCenter);
+        }
+        if (feature.geometry.type === 'MultiPolygon') {
+          return feature.geometry.coordinates.some(polygon => {
+            const coords = polygon[0].map(([lng, lat]) => [lat, lng]);
+            return L.polygon(coords).getBounds().contains(mapCenter);
+          });
+        }
+        return false;
+      }).length;
+    }
+
+    setVisibleFeatures({
+      wells: visibleWells,
+      watersheds: visibleWatersheds
+    });
+  }, [wellData, watershedData]);
+
+  useEffect(() => {
+    if (watershedData && wellData) {
+      const initialBounds = L.latLngBounds([
+        [40.5, -6.0],  
+        [42.5, -3.5]   
+      ]);
+      handleMapBoundsChange(initialBounds);
+    }
+  }, [watershedData, wellData, handleMapBoundsChange]);
 
   if (loading) {
     return (
@@ -103,6 +154,7 @@ const Map = () => {
           wellData={wellData}
           layerVisibility={layerVisibility}
           onLayerToggle={handleLayerToggle}
+          visibleFeatures={visibleFeatures}
         />
       </div>
       
@@ -112,6 +164,7 @@ const Map = () => {
             watershedData={layerVisibility.watersheds ? watershedData : null}
             wellData={layerVisibility.wells ? wellData : null}
             onFeatureClick={handleFeatureClick}
+            onBoundsChange={handleMapBoundsChange}
           />
         </div>
         

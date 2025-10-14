@@ -5,13 +5,14 @@ const Sidebar = ({
   watershedData, 
   wellData, 
   layerVisibility, 
-  onLayerToggle 
+  onLayerToggle,
+  visibleFeatures = { watersheds: 0, wells: 0 }
 }) => {
   const stats = {
     totalWatersheds: watershedData?.features?.length || 0,
     totalWells: wellData?.metadata?.totalFeatures || 0,
-    visibleWatersheds: layerVisibility.watersheds ? (watershedData?.features?.length || 0) : 0,
-    visibleWells: layerVisibility.wells ? (wellData?.metadata?.returned || 0) : 0
+    visibleWatersheds: layerVisibility.watersheds ? visibleFeatures.watersheds : 0,
+    visibleWells: layerVisibility.wells ? visibleFeatures.wells : 0
   };
 
   const LayerToggle = ({ layerKey, icon: Icon, label, count, isVisible }) => (

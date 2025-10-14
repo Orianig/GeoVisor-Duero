@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -12,7 +12,8 @@ L.Icon.Default.mergeOptions({
 const MapView = ({ 
   watershedData = null,
   wellData = null,
-  onFeatureClick 
+  onFeatureClick,
+  onBoundsChange
 }) => {
   const DUERO_CENTER = [41.4, -4.75];
   const INITIAL_ZOOM = 8;
@@ -87,6 +88,27 @@ const MapView = ({
     }
   };
 
+  const MapEventsHandler = () => {
+    useMapEvents({
+      whenReady: (e) => {
+        if (onBoundsChange) {
+          onBoundsChange(e.target.getBounds());
+        }
+      },
+      moveend: (e) => {
+        if (onBoundsChange) {
+          onBoundsChange(e.target.getBounds());
+        }
+      },
+      zoomend: (e) => {
+        if (onBoundsChange) {
+          onBoundsChange(e.target.getBounds());
+        }
+      }
+    });
+    return null;
+  };
+
   return (
     <div className="h-full w-full">
       <MapContainer
@@ -102,6 +124,7 @@ const MapView = ({
           maxZoom={19}
           minZoom={2}
         />
+        <MapEventsHandler />
         {watershedData && (
           <GeoJSON
             key="watersheds"
