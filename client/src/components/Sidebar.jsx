@@ -95,11 +95,11 @@ const Sidebar = ({
         <h3 className="text-sm font-medium text-gray-700 mb-3">Leyenda</h3>
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 border-2 border-blue-500 bg-blue-100 rounded"></div>
+            <div className="w-4 h-4 border border-[#21519e] bg-[#cad6eb] rounded"></div>
             <span className="text-sm text-gray-600">Cuencas hidrográficas</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+            <div className="w-4 h-4 bg-[#ac62bd] rounded-full"></div>
             <span className="text-sm text-gray-600">Pozos de agua</span>
           </div>
         </div>

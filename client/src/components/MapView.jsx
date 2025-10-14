@@ -16,21 +16,28 @@ const MapView = ({
 }) => {
   const DUERO_CENTER = [41.4, -4.75];
   const INITIAL_ZOOM = 8;
+  
+  const getRadiusForZoom = (zoom) => {
+    if (zoom <= 8) return 1;
+    if (zoom <= 10) return 3;
+    if (zoom <= 12) return 4;
+    if (zoom <= 14) return 5;
+    return 6;
+  };
 
   const getLayerStyle = (layerType) => {
     const styles = {
       watersheds: { 
-        color: '#3B82F6', 
-        weight: 2, 
+        color: '#21519e', 
+        weight: 1, 
         fillOpacity: 0.1,
-        fillColor: '#3B82F6'
+        fillColor: '#cad6eb'
       },
       wells: { 
-        color: '#EF4444', 
-        weight: 3, 
+        color: '#ac62bd', 
+        weight: 1, 
         fillOpacity: 0.9,
-        fillColor: '#EF4444',
-        radius: 6,
+        fillColor: '#ac62bd',
         interactive: true,
         bubblingMouseEvents: false
       }
@@ -39,7 +46,22 @@ const MapView = ({
   };
 
   const pointToLayer = (feature, latlng) => {
-    return L.circleMarker(latlng, getLayerStyle('wells'));
+    const marker = L.circleMarker(latlng, getLayerStyle('wells'));
+    
+    const updateRadius = (map) => {
+      const zoom = map.getZoom();
+      const newRadius = getRadiusForZoom(zoom);
+      marker.setRadius(newRadius);
+    };
+    
+    marker.on('add', (e) => {
+      const map = e.target._map;
+      updateRadius(map);
+      
+      map.on('zoomend', () => updateRadius(map));
+    });
+    
+    return marker;
   };
 
   const onEachFeature = (feature, layer) => {
@@ -70,7 +92,7 @@ const MapView = ({
       <MapContainer
         center={DUERO_CENTER}
         zoom={INITIAL_ZOOM}
-        className="h-full w-full rounded-lg shadow-lg"
+        className="h-full w-full shadow-md"
         zoomControl={true}
         scrollWheelZoom={true}
       >

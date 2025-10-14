@@ -28,8 +28,8 @@ const Details = ({ selectedFeature, onClearSelection }) => {
   };
 
   const getFeatureIcon = () => {
-    if (isWell) return <FaDroplet className="w-5 h-5 text-red-500" />;
-    if (isWatershed) return <FaWater className="w-5 h-5 text-blue-500" />;
+    if (isWell) return <FaDroplet className="w-5 h-5" style={{color: '#ac62bd'}} />;
+    if (isWatershed) return <FaWater className="w-5 h-5" style={{color: '#21519e'}} />;
     return <FaMapPin className="w-5 h-5 text-gray-500" />;
   };
 
@@ -90,7 +90,7 @@ const Details = ({ selectedFeature, onClearSelection }) => {
           {isWell && (properties.elevacion || properties.profundidad || properties.caudal) && (
             <div>
               <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                <FaDroplet className="w-4 h-4 mr-2" />
+                <FaDroplet className="w-4 h-4 mr-2" style={{color: '#ac62bd'}} />
                 Datos del pozo
               </h4>
               <div className="bg-blue-50 rounded-lg p-3 space-y-2">
@@ -122,7 +122,7 @@ const Details = ({ selectedFeature, onClearSelection }) => {
           {isWatershed && (properties.area || properties.perimetro) && (
             <div>
               <h4 className="text-sm font-medium text-gray-700 mb-2 flex items-center">
-                <FaWater className="w-4 h-4 mr-2" />
+                <FaWater className="w-4 h-4 mr-2" style={{color: '#21519e'}} />
                 Datos de la cuenca
               </h4>
               <div className="bg-green-50 rounded-lg p-3 space-y-2">
