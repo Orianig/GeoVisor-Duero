@@ -24,7 +24,7 @@ const Navbar = () => {
     {
       path: '/map',
       icon: FaMapMarkedAlt,
-      label: 'Map'
+      label: 'Mapa'
     }
   ];
   
